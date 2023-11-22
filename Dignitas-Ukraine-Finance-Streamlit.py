@@ -13,6 +13,7 @@ import plotly.figure_factory as ff
 import plotly.io as pio
 from plotly.subplots import make_subplots
 
+@st.cache_data(ttl=24*60*60)
 def data_prep():
     """ prep data before running the app"""
     df, df_inkind, df_inv, ds = etl.read_txs_from_csv()

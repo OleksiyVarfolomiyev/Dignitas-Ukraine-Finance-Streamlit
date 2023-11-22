@@ -36,7 +36,8 @@ def read_txs():
 def read_txs_from_csv(nrows = None):
       '''Extract and transform data from csv file'''
       if nrows == None:
-            df = pd.read_csv('./data/DIGNITAS UKRAINE INC_Transaction Drilldown Report.csv',
+            #df = pd.read_csv('./data/DIGNITAS UKRAINE INC_Transaction Drilldown Report.csv',
+            df = pd.read_csv('./data/DIGNITAS UKRAINE INC_Transactions for Dashboard.csv',
                          index_col=None,
                          usecols = ['Account name', 'Date', 'Transaction type', 'Name', 'Amount line'],
                          dtype={ 'Transaction type': 'category', 'Name': 'string', 'Account name': 'string'}, parse_dates=['Date'])
