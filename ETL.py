@@ -30,7 +30,7 @@ def read_txs():
     spending_total_by_category = pd.read_csv('data/spending_total_by_category.csv', dtype=dtypes, parse_dates=['Date'])
 
     return large_donations_by_category, large_spending_by_category, donations_below_large_by_category, spending_below_large_by_category, \
-           donations_total, spending_total, donations_total_by_category, spending_total_by_category
+            donations_total, spending_total, donations_total_by_category, spending_total_by_category
 
 
 def read_txs_from_csv(nrows = None):
@@ -38,49 +38,49 @@ def read_txs_from_csv(nrows = None):
     if nrows == None:
             #df = pd.read_csv('./data/DIGNITAS UKRAINE INC_Transaction Drilldown Report.csv',
             df = pd.read_csv('./data/DIGNITAS UKRAINE INC_Transactions for Dashboard.csv',
-                         index_col=None,
-                         usecols = ['Account name', 'Date', 'Transaction type', 'Name', 'Amount line'],
-                         dtype={ 'Transaction type': 'category', 'Name': 'string', 'Account name': 'string'}, parse_dates=['Date'])
+                        index_col=None,
+                        usecols = ['Account', 'Date', 'Transaction type', 'Name', 'Amount'],
+                        dtype={ 'Transaction type': 'category', 'Name': 'string', 'Account': 'string'}, parse_dates=['Date'])
     else:
-            return None
+        return None
 
-    df['Amount line'] = df['Amount line'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    df['Amount'] = df['Amount'].replace({'\$': '', ',': '', '\(': '', '\)': ''}, regex=True).astype(float)
     df = df[df['Transaction type'] != 'Transfer']
-    df = df[df['Account name'] != 'FIVE % FOR ADMIN EXPENSES']
+    df = df[df['Account'] != 'FIVE % FOR ADMIN EXPENSES']
 
     # in-kind donations
-    df = df[df['Account name'] != 'IN-KIND DONATION DISTRIBUTIONS']
-    df_inkind = df[df['Account name'] == 'In-kind donations']
-    df = df[df['Account name'] != 'In-kind donations']
+    #df = df[df['Account name'] != 'IN-KIND DONATION DISTRIBUTIONS']
+    #df_inkind = df[df['Account name'] == 'In-kind donations']
+    #df = df[df['Account name'] != 'In-kind donations']
 
     # investments
-    df_inv = df[df['Account name'] == 'DIVIDENT RECEIVED FIDELITY']
+    #df_inv = df[df['Account name'] == 'DIVIDENT RECEIVED FIDELITY']
 
-    df = df[df['Account name'] != 'DIVIDENT RECEIVED FIDELITY']
-    df = df[df['Account name'] != 'FIDELITY INVESTMENTS']
-    df = df[df['Account name'] != 'In-kind donations']
+    #df = df[df['Account name'] != 'DIVIDENT RECEIVED FIDELITY']
+    #df = df[df['Account name'] != 'FIDELITY INVESTMENTS']
 
     # spending
     ds = df[df['Transaction type'] != 'Deposit']
     ds = ds[ds['Transaction type'] != 'Journal Entry']
-    ds = ds[ds['Account name'] != 'Donations directed by individuals']
-    ds = ds[ds['Account name'] != 'CHASE ENDING IN 5315']
-    ds = ds[ds['Account name'] != 'PayPal Bank 3']
-    ds = ds[ds['Account name'] != 'DIVIDENT RECEIVED FIDELITY']
+    ds = ds[ds['Account'] != 'Donations directed by individuals']
+    ds = ds[ds['Account'] != 'CHASE ENDING IN 5315']
+    ds = ds[ds['Account'] != 'PayPal Bank 3']
+    ds = ds[ds['Account'] != 'DIVIDENT RECEIVED FIDELITY']
 
     # donations
-    df = df[df['Account name'] == 'Donations directed by individuals']
+    df = df[df['Account'] == 'Donations directed by individuals']
     df = df[df['Transaction type'] == 'Deposit']
 
     # Define the mapping of old column names to new column names
-    column_mapping = {'Name': 'Category', 'Amount line': 'UAH'}
+    column_mapping = {'Name': 'Category', 'Amount': 'UAH'}
     # Use the mapping to rename the columns
     df.rename(columns=column_mapping, inplace=True)
-    df_inkind.rename(columns=column_mapping, inplace=True)
+    #df_inkind.rename(columns=column_mapping, inplace=True)
 
-    column_mapping = {'Account name': 'Category', 'Amount line': 'UAH'}
+    column_mapping = {'Account': 'Category', 'Amount': 'UAH'}
     ds.rename(columns=column_mapping, inplace=True)
-    return df, df_inkind, df_inv, ds
+    ds['Category'] = ds['Category'].str.lower()
+    return df, ds
 
 
 def replace_category_values(data, category_column, val1, val2):
@@ -111,33 +111,7 @@ def extract_relevant_txs(df, ds, start_date, end_date):
     df = df[['Date', 'Category', 'UAH']]
     column_mapping = {'Account name': 'Category', 'Amount line': 'UAH'}
     ds.rename(columns=column_mapping, inplace=True)
-
     ds = ds[['Date', 'Category', 'UAH']]
-    mask = ds['Category'].str.contains('software', case=False, na=False)
-    ds.loc[mask, 'Category'] = 'Admin'
-    mask = ds['Category'].str.contains('transportation', case=False, na=False)
-    ds.loc[mask, 'Category'] = 'Admin'
-    mask = ds['Category'].str.contains('events', case=False, na=False)
-    ds.loc[mask, 'Category'] = 'Admin'
-    mask = ds['Category'].str.contains('lodging', case=False, na=False)
-    ds.loc[mask, 'Category'] = 'Admin'
-    mask = ds['Category'].str.contains('car purchases', case=False, na=False)
-    ds.loc[mask, 'Category'] = 'Admin'
-    mask = ds['Category'].str.contains('Legal fees', case=False, na=False)
-    ds.loc[mask, 'Category'] = 'Admin'
-    mask = ds['Category'].str.contains('delivery', case=False, na=False)
-    ds.loc[mask, 'Category'] = 'Admin'
-    mask = ds['Category'].str.contains('bank fees', case=False, na=False)
-    ds.loc[mask, 'Category'] = 'Admin'
-    mask = ds['Category'].str.contains('supplies', case=False, na=False)
-    ds.loc[mask, 'Category'] = 'Admin'
-
-    #ds['Category'] = ds['Category'].str.replace('software & apps', 'Admin')
-    #ds['Category'] = ds['Category'].str.replace('events participation expenses', 'Admin')
-    # ds['Category'] = ds['Category'].str.replace('transportation and parking', 'Admin')
-    # ds['Category'] = ds['Category'].str.replace('lodging', 'Admin')
-    # ds['Category'] = ds['Category'].str.replace('car purchases', 'Admin')
-    # ds['Category'] = ds['Category'].str.lower()
 
     donations_total_by_category = df.groupby(['Date', 'Category']).sum().reset_index()
     donations_total_by_category.to_csv('data/donations_total_by_category.csv', index=False)

@@ -16,7 +16,9 @@ from plotly.subplots import make_subplots
 @st.cache_data(ttl=24*60*60)
 def data_prep():
     """ prep data before running the app"""
-    df, df_inkind, df_inv, ds = etl.read_txs_from_csv()
+    df, ds = etl.read_txs_from_csv()
+    #st.dataframe(df_inkind)
+    #st.dataframe(df_inv)
     start_date = df['Date'].min()
     end_date = df['Date'].max()
     #end_date = dt.date.today()
@@ -27,7 +29,6 @@ def data_prep():
     etl.extract_relevant_txs(df, ds, start_date, end_date)
 
 #data_prep()
-
 # app code
 large_donations_by_category, large_spending_by_category, donations_below_large_by_category, spending_below_large_by_category, \
 donations_total, spending_total, donations_total_by_category, spending_total_by_category = etl.read_txs()
@@ -121,7 +122,7 @@ def show_donations_spending_by_category(large_donations_by_category, large_spend
 
     col0, col1, col2, col3 = st.columns(4)
     with col1:
-        over_below_all = st.selectbox(' ',['all txs', 'over 10K', 'below 10K'])
+        over_below_all = st.selectbox(' ',['all txs', 'over $2,666', 'below $2,666'])
     with col2:
         period = st.selectbox(' ', ['Year', 'Month', 'Week', 'Day', 'All time'])
 
@@ -142,13 +143,13 @@ def show_donations_spending_by_category(large_donations_by_category, large_spend
     else:
         donations = donations_by_category
         spending = spending_by_category
-
-    if over_below_all == 'over 10K':
-        donations = donations[donations['UAH'] >= 10000]
-        spending = spending[spending['UAH'] >= 10000]
-    elif over_below_all == 'below 10K':
-        donations = donations[donations['UAH'] < 10000]
-        spending = spending[spending['UAH'] < 10000]
+    amount = 2666
+    if over_below_all == 'over $2,666':
+        donations = donations[donations['UAH'] >= amount]
+        spending = spending[spending['UAH'] >= amount]
+    elif over_below_all == 'below $2,666':
+        donations = donations[donations['UAH'] < amount]
+        spending = spending[spending['UAH'] < amount]
     # else:
     #     donations = donations_total_by_category
     #     spending = spending_total_by_category
@@ -183,7 +184,7 @@ def donations_spending_by_period_by_category(donations_total_by_category, spendi
 
     col0, col1, col2, col3 = st.columns(4)
     with col0:
-        amount = st.selectbox(' ',['all txs', '<10K', '>10K'])
+        amount = st.selectbox(' ',['all txs', '<$2,666', '>$2,666'])
     with col1:
         selected_period = st.selectbox(' ',['Monthly ', 'Weekly ', 'Daily '])
     with col2:
@@ -191,10 +192,10 @@ def donations_spending_by_period_by_category(donations_total_by_category, spendi
     with col3:
         timespan = st.selectbox(' ',[ 'all time', '1 month', '3 months', '1 Year'])
 
-    if amount == '>10K':
+    if amount == '>$2,666':
         donations_by_category = large_donations_by_category
         spending_by_category = large_spending_by_category
-    elif amount == '<10K':
+    elif amount == '<$2,666':
         donations_by_category = donations_below_large_by_category
         spending_by_category = spending_below_large_by_category
     else:
