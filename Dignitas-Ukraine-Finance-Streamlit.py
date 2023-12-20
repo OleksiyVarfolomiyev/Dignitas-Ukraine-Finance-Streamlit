@@ -141,9 +141,9 @@ def show_donations_spending_by_category(large_donations_by_category, large_spend
     donations_by_cat = pd.DataFrame(donations.groupby('Category')['USD'].sum())
     spending_by_cat =  pd.DataFrame(spending.groupby('Category')['USD'].sum())
 
-    fig1 = charting_tools.pie_plot(donations_by_cat, 'USD', 'Donations by category', False)
-    fig2 = charting_tools.pie_plot(spending_by_cat, 'USD', "Spending by Category", False)
-    fig = charting_tools.subplot_horizontal(fig1, fig2, 1, 2, 'domain', 'domain', 'Donations by Category', 'Spending by Category', False)
+    fig1 = charting_tools.pie_plot(donations_by_cat, 'USD', 'Donations', False)
+    fig2 = charting_tools.pie_plot(spending_by_cat, 'USD', "Spending", False)
+    fig = charting_tools.subplot_horizontal(fig1, fig2, 1, 2, 'domain', 'domain', 'Donations', 'Spending', False)
     st.plotly_chart(fig, use_container_width=True)
 
 show_donations_spending_by_category(large_donations_by_category, large_spending_by_category,
