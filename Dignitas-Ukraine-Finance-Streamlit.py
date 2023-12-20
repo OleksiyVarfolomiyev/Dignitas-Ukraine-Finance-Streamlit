@@ -31,7 +31,7 @@ def show_metrics(donations_total, spending_total):
     #dt.date(2023, 10, 31)
 
     #donations_today = etl.format_money(donations_total[donations_total['Date'] == donations_total['Date'].max()]['UAH'].iloc[0])
-    spending_latest = etl.format_money(spending_total[spending_total['Date'] == spending_total['Date'].max()]['UAH'].iloc[0])
+    spending_latest = etl.format_money_USD(spending_total[spending_total['Date'] == spending_total['Date'].max()]['UAH'].iloc[0])
     yesterday = donations_total['Date'].max()# - pd.Timedelta(days=1)
     donations_yesterday = etl.format_money_USD(donations_total[donations_total['Date'] == yesterday]['UAH'].iloc[0])
 
