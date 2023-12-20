@@ -1,36 +1,30 @@
 Date,Category,UAH
-2023-05-30,bank fees & service charges,0.38
-2023-05-31,bank fees & service charges,15.0
-2023-06-04,supplies and materials,1.0
-2023-06-04,transportation and parking,151.54000000000002
-2023-06-05,supplies and materials,1410.57
-2023-06-06,supplies and materials,1000.0
-2023-06-07,supplies and materials,49.06
-2023-06-12,events participation expenses,250.0
-2023-06-12,supplies and materials,489.66
-2023-06-12,transportation and parking,341.4
-2023-06-14,supplies and materials,2288.8
-2023-06-21,supplies & materials,20.0
-2023-06-23,transportation and parking,589.55
-2023-06-29,lodging,754.77
-2023-08-09,supplies and materials,1650.6
-2023-08-10,bank fees & service charges,15.0
-2023-08-14,bank fees & service charges,15.0
-2023-08-14,software & apps,42.5
-2023-08-15,events participation expenses,285.0
-2023-08-15,legal fees,600.0
-2023-09-13,drone purchases,169502.3
-2023-09-13,software & apps,85.0
-2023-09-24,events participation expenses,210.0
-2023-09-24,maling and delivery,124.0
-2023-09-24,software & apps,92.54
-2023-09-24,supplies and materials,1980.4499999999998
-2023-09-24,transportation and parking,134.0
-2023-09-28,car purchases,6474.59
-2023-10-13,software & apps,85.0
-2023-10-17,grants,333000.0
-2023-10-19,drone purchases,95000.0
-2023-10-23,grants,238000.0
-2023-10-25,lodging,1192.29
-2023-10-25,maling and delivery,194.0
-2023-11-13,software & apps,85.0
+2023-05-30,Admin,0.38
+2023-05-31,Admin,15.0
+2023-06-04,Admin,151.54000000000002
+2023-06-04,Supplies And Materials,1.0
+2023-06-05,Supplies And Materials,1410.57
+2023-06-06,Supplies And Materials,1000.0
+2023-06-07,Supplies And Materials,49.06
+2023-06-12,Admin,591.4
+2023-06-12,Supplies And Materials,489.66
+2023-06-14,Supplies And Materials,2288.8
+2023-06-21,Admin,20.0
+2023-06-23,Admin,589.55
+2023-06-29,Admin,754.77
+2023-08-09,Supplies And Materials,1650.6
+2023-08-10,Admin,15.0
+2023-08-14,Admin,57.5
+2023-08-15,Admin,885.0
+2023-09-13,Admin,85.0
+2023-09-13,Drone Purchases,169502.3
+2023-09-24,Admin,560.54
+2023-09-24,Supplies And Materials,1980.4499999999998
+2023-09-28,Admin,6474.59
+2023-10-13,Admin,85.0
+2023-10-17,Grants,333000.0
+2023-10-19,Drone Purchases,95000.0
+2023-10-23,Grants,238000.0
+2023-10-25,Admin,1386.29
+2023-11-13,Admin,85.0
+2023-12-13,Admin,85.0

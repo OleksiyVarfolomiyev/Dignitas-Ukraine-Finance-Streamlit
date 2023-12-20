@@ -13,25 +13,12 @@ import plotly.figure_factory as ff
 import plotly.io as pio
 from plotly.subplots import make_subplots
 
-@st.cache_data(ttl=24*60*60)
-def data_prep():
-    """ prep data before running the app"""
-    df, ds = etl.read_txs_from_csv()
-    #st.dataframe(df_inkind)
-    #st.dataframe(df_inv)
-    start_date = df['Date'].min()
-    end_date = df['Date'].max()
-    #end_date = dt.date.today()
-    #start_date = dt.date(2023, 2, 15)
-    #end_date = dt.date(2023, 10, 24)
-    #end_date = dt.date.today()
-    #end_date = dt.date.today() - dt.timedelta(days=1)
-    etl.extract_relevant_txs(df, ds, start_date, end_date)
+# run once to ELT data, then comment and run the app
+#etl.ETL_raw_data()
 
-#data_prep()
 # app code
 large_donations_by_category, large_spending_by_category, donations_below_large_by_category, spending_below_large_by_category, \
-donations_total, spending_total, donations_total_by_category, spending_total_by_category = etl.read_txs()
+donations_total, spending_total, donations_total_by_category, spending_total_by_category = etl.read_clean_data()
 
 st.title("Dignitas Ukraine **Financials**")
 
