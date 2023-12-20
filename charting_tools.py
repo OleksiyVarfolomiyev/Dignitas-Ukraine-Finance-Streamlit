@@ -205,7 +205,7 @@ def bar_plot_grouped(data, col1, col2, fig_title, show):
     )
     fig = go.Figure(data=[trace1, trace2], layout=layout)
     fig.update_layout(xaxis=dict(tickformat='%b'), showlegend=False)
-                      #legend=dict(orientation='h', x=0.2, y=-0.1)
+                    #legend=dict(orientation='h', x=0.2, y=-0.1)
     fig = fig_add_mean(fig, data, col1)
     hide_axis_title(fig)
 

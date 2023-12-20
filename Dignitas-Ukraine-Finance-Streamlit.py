@@ -168,7 +168,7 @@ def donations_spending_by_period_by_category(donations_total_by_category, spendi
 
     col0, col1, col2, col3 = st.columns(4)
     with col0:
-        amount = st.selectbox(' ',['all txs', '<$2,666', '>$2,666'])
+        amount = st.selectbox(' ',['<$2,666', '>$2,666', 'all txs'])
     with col1:
         selected_period = st.selectbox(' ',['Monthly ', 'Weekly ', 'Daily '])
     with col2:
