@@ -11,6 +11,14 @@ def format_money(value):
     else:
         return '{:.2f}'.format(value)
 
+def format_money_USD(value):
+    if abs(value) >= 1e6:
+        return '${:.2f}M'.format(value / 1e6)
+    elif abs(value) >= 1e3:
+        return '${:.2f}K'.format(value / 1e3)
+    else:
+        return '${:.2f}'.format(value)
+
 
 def read_clean_data():
     """read clean data from csv files"""

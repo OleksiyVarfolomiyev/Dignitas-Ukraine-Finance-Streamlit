@@ -93,7 +93,7 @@ def bar_plot(val, col, fig_title, show):
 def bar_plot_horizontal(data, col, title):
     """ horizontal bar plot with mean"""
     fig = px.bar(data, x = data[col], y = data.index, orientation='h',
-             title = title, color=col,  text_auto='.2s')
+            title = title, color=col,  text_auto='.2s')
     hide_axis_title(fig)
     fig_add_mean(fig, data, col)
 
@@ -109,7 +109,7 @@ def stack_bar_plot(df, title, show):
     for column in df.select_dtypes(include=[np.number]).columns:
         fig.add_trace(
                 go.Bar(name=column, x = df['Date'], y = df[column],
-                       text = df[column].apply(etl.format_money)
+                    text = df[column].apply(etl.format_money_USD)
         ))
 
     fig.update_layout(
@@ -194,8 +194,8 @@ def bar_plot_with_line(df, col, fig_title, show):
         return fig
 
 def bar_plot_grouped(data, col1, col2, fig_title, show):
-    trace1 = go.Bar(x=data.index, y=data[col1], name=col1, text=data[col1].apply(etl.format_money), marker_color = 'blue')
-    trace2 = go.Bar(x=data.index, y=data[col2], name=col2, text=data[col2].apply(etl.format_money), marker_color = 'yellow')
+    trace1 = go.Bar(x=data.index, y=data[col1], name=col1, text=data[col1].apply(etl.format_money_USD), marker_color = 'blue')
+    trace2 = go.Bar(x=data.index, y=data[col2], name=col2, text=data[col2].apply(etl.format_money_USD), marker_color = 'yellow')
 
     layout = go.Layout(
         barmode='group',
@@ -218,11 +218,11 @@ def bar_plot_grouped_general(data, col1, col2, fig_title, show):
 
     trace1 = go.Bar(x=data.index, y = data[col1],
                     name = col1,
-                    text = data[col1].apply(etl.format_money),
+                    text = data[col1].apply(etl.format_money_USD),
                     marker_color = 'blue')
     trace2 = go.Bar(x = data.index, y = data[col2],
                     name = col2,
-                    text = data[col2].apply(etl.format_money),
+                    text = data[col2].apply(etl.format_money_USD),
                     marker_color = 'red')
 
     layout = go.Layout(
