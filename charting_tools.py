@@ -67,10 +67,10 @@ def subplot_vertical(val, fig1, fig2, rows, cols, type1, type2, barmode, title1,
 def pie_plot(data, col, title, show):
     """ pie plot with hole"""
     fig = px.pie(data,
-             values = data[col],
-             names = data.index,
-             hole=0.5,
-             title = title)
+            values = data[col],
+            names = data.index,
+            hole=0.5,
+            title = title)
     if show:
         fig.show(renderer="notebook")
     else:
@@ -144,9 +144,9 @@ def line_plot(val, col, title, show):
     moving_avg = val[col].rolling(window=window).mean()
 
     fig.add_trace(go.Scatter(x = val.index, y = moving_avg,
-                             mode='lines', name=f'{window}-Day Moving Average',
-                             showlegend = False,
-                             line=dict(color='orange', dash = 'dot') ))
+                            mode='lines', name=f'{window}-Day Moving Average',
+                            showlegend = False,
+                            line=dict(color='orange', dash = 'dot') ))
     hide_axis_title(fig)
     fig_add_mean(fig, val, col)
 

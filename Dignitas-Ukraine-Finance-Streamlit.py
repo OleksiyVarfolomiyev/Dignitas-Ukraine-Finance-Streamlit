@@ -14,7 +14,7 @@ import plotly.io as pio
 from plotly.subplots import make_subplots
 
 # run once to ELT data, then comment and run the app
-etl.ETL_raw_data()
+#etl.ETL_raw_data()
 
 # app code
 large_donations_by_category, large_spending_by_category, donations_below_large_by_category, spending_below_large_by_category, \
@@ -44,9 +44,6 @@ show_metrics(donations_total, spending_total)
 
 def show_donations_spending(spending_total, donations_total):
     """ Show donations and spending by time period"""
-    # col0, col1, col2 = st.columns(3)
-    # with col1:
-    #     timeperiod = st.selectbox(' ', ['Monthly ', 'Weekly ', 'Daily ', 'Yearly '])
 
     col0, col1 = st.columns(2)
     with col0:
