@@ -44,7 +44,7 @@ def subplot_vertical(val, fig1, fig2, rows, cols, type1, type2, barmode, title1,
                     subplot_titles=[title1, title2])
 
     if not val.empty:
-        fig_add_mean(fig, val, 'UAH')
+        fig_add_mean(fig, val, 'USD')
 
     fig.update_layout(
     barmode = barmode,

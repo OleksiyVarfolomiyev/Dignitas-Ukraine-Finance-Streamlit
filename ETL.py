@@ -22,7 +22,7 @@ def format_money_USD(value):
 
 def read_clean_data():
     """read clean data from csv files"""
-    dtypes = { 'UAH': 'float64', 'Category': 'str' }
+    dtypes = { 'USD': 'float64', 'Category': 'str' }
 
     large_donations_by_category = pd.read_csv('data/large_donations_by_category.csv', dtype=dtypes, parse_dates=['Date'])
     large_spending_by_category = pd.read_csv('data/large_spending_by_category.csv', dtype=dtypes, parse_dates=['Date'])
@@ -81,21 +81,21 @@ def ETL_raw_data(nrows = None):
     df = df[df['Transaction type'] == 'Deposit']
 
     # Define the mapping of old column names to new column names
-    column_mapping = {'Name': 'Category', 'Amount': 'UAH'}
+    column_mapping = {'Name': 'Category', 'Amount': 'USD'}
     # Use the mapping to rename the columns
     df.rename(columns=column_mapping, inplace=True)
     #df_inkind.rename(columns=column_mapping, inplace=True)
 
-    column_mapping = {'Account': 'Category', 'Amount': 'UAH'}
+    column_mapping = {'Account': 'Category', 'Amount': 'USD'}
     ds.rename(columns=column_mapping, inplace=True)
 
-    column_mapping = {'Name': 'Category', 'Amount line': 'UAH'}
+    column_mapping = {'Name': 'Category', 'Amount line': 'USD'}
     df.rename(columns=column_mapping, inplace=True)
-    df = df[['Date', 'Category', 'UAH']]
+    df = df[['Date', 'Category', 'USD']]
 
-    column_mapping = {'Account name': 'Category', 'Amount line': 'UAH'}
+    column_mapping = {'Account name': 'Category', 'Amount line': 'USD'}
     ds.rename(columns=column_mapping, inplace=True)
-    ds = ds[['Date', 'Category', 'UAH']]
+    ds = ds[['Date', 'Category', 'USD']]
 
     value_mapping = {'02 GENERAL BANK URESTR': 'General donations', 'PAY PALL UNRESTRICTED': 'General donations',
                 '03 FUNDRASING EVENTS UNRESTR': 'General donations', '04 PAYPAL GENERAL UNRESTR': 'General donations',
@@ -114,7 +114,7 @@ def ETL_raw_data(nrows = None):
                 'Ngoptics' : 'Drone purchases', 'Collegiate Productions' : 'Admin', 'Supplies & Materials': 'Admin'}
 
     ds['Category'] = ds['Category'].replace(value_mapping)
-    ds['UAH'] = ds['UAH'].abs()
+    ds['USD'] = ds['USD'].abs()
 
     donations_total_by_category = df.groupby(['Date', 'Category']).sum().reset_index()
     donations_total_by_category.to_csv('data/donations_total_by_category.csv', index=False)
@@ -131,17 +131,17 @@ def ETL_raw_data(nrows = None):
 
     # above 10K
     amount = 10000
-    large_donations = df[df['UAH'] >= amount].fillna('')
+    large_donations = df[df['USD'] >= amount].fillna('')
     large_donations_by_category = large_donations.groupby(['Date', 'Category']).sum().reset_index()
     large_donations_by_category.to_csv('data/large_donations_by_category.csv', index=False)
 
-    large_spending = ds[ds['UAH'] >= amount].fillna('')
+    large_spending = ds[ds['USD'] >= amount].fillna('')
     large_spending_by_category = large_spending.groupby(['Date', 'Category']).sum().reset_index()
     large_spending_by_category.to_csv('data/large_spending_by_category.csv', index=False)
 
     # below 10K
-    donations_below_large_by_category = df[df.UAH < amount]
-    spending_below_large_by_category = ds[ds.UAH < amount]
+    donations_below_large_by_category = df[df.USD < amount]
+    spending_below_large_by_category = ds[ds.USD < amount]
 
     donations_below_large_by_category = donations_below_large_by_category.groupby(['Date', 'Category']).sum().reset_index()
     spending_below_large_by_category = spending_below_large_by_category.groupby(['Date', 'Category']).sum().reset_index()

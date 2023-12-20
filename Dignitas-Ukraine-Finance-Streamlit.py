@@ -14,7 +14,7 @@ import plotly.io as pio
 from plotly.subplots import make_subplots
 
 # run once to ELT data, then comment and run the app
-#etl.ETL_raw_data()
+etl.ETL_raw_data()
 
 # app code
 large_donations_by_category, large_spending_by_category, donations_below_large_by_category, spending_below_large_by_category, \
@@ -30,15 +30,15 @@ def show_metrics(donations_total, spending_total):
     end_date = dt.date.today()
     #dt.date(2023, 10, 31)
 
-    #donations_today = etl.format_money(donations_total[donations_total['Date'] == donations_total['Date'].max()]['UAH'].iloc[0])
-    spending_latest = etl.format_money_USD(spending_total[spending_total['Date'] == spending_total['Date'].max()]['UAH'].iloc[0])
+    #donations_today = etl.format_money(donations_total[donations_total['Date'] == donations_total['Date'].max()]['USD'].iloc[0])
+    spending_latest = etl.format_money_USD(spending_total[spending_total['Date'] == spending_total['Date'].max()]['USD'].iloc[0])
     yesterday = donations_total['Date'].max()# - pd.Timedelta(days=1)
-    donations_yesterday = etl.format_money_USD(donations_total[donations_total['Date'] == yesterday]['UAH'].iloc[0])
+    donations_yesterday = etl.format_money_USD(donations_total[donations_total['Date'] == yesterday]['USD'].iloc[0])
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Days", (end_date - starting_date).days, "1", delta_color="normal")
-    col2.metric("Donations", etl.format_money_USD(donations_total.UAH.sum()), donations_yesterday, delta_color="normal")
-    col3.metric("Spending",  etl.format_money_USD(spending_total.UAH.sum()),  spending_latest, delta_color="normal")
+    col2.metric("Donations", etl.format_money_USD(donations_total.USD.sum()), donations_yesterday, delta_color="normal")
+    col3.metric("Spending",  etl.format_money_USD(spending_total.USD.sum()),  spending_latest, delta_color="normal")
 
 show_metrics(donations_total, spending_total)
 
@@ -132,20 +132,20 @@ def show_donations_spending_by_category(large_donations_by_category, large_spend
         spending = spending_by_category
     amount = 2666
     if over_below_all == 'over $2,666':
-        donations = donations[donations['UAH'] >= amount]
-        spending = spending[spending['UAH'] >= amount]
+        donations = donations[donations['USD'] >= amount]
+        spending = spending[spending['USD'] >= amount]
     elif over_below_all == 'below $2,666':
-        donations = donations[donations['UAH'] < amount]
-        spending = spending[spending['UAH'] < amount]
+        donations = donations[donations['USD'] < amount]
+        spending = spending[spending['USD'] < amount]
     # else:
     #     donations = donations_total_by_category
     #     spending = spending_total_by_category
 
-    donations_by_cat = pd.DataFrame(donations.groupby('Category')['UAH'].sum())
-    spending_by_cat =  pd.DataFrame(spending.groupby('Category')['UAH'].sum())
+    donations_by_cat = pd.DataFrame(donations.groupby('Category')['USD'].sum())
+    spending_by_cat =  pd.DataFrame(spending.groupby('Category')['USD'].sum())
 
-    fig1 = charting_tools.pie_plot(donations_by_cat, 'UAH', 'Donations by category', False)
-    fig2 = charting_tools.pie_plot(spending_by_cat, 'UAH', "Spending by Category", False)
+    fig1 = charting_tools.pie_plot(donations_by_cat, 'USD', 'Donations by category', False)
+    fig2 = charting_tools.pie_plot(spending_by_cat, 'USD', "Spending by Category", False)
     fig = charting_tools.subplot_horizontal(fig1, fig2, 1, 2, 'domain', 'domain', 'Donations by Category', 'Spending by Category', False)
     st.plotly_chart(fig, use_container_width=True)
 
@@ -157,10 +157,10 @@ def donations_spending_by_period_by_category(donations_total_by_category, spendi
                                             large_donations_by_category, large_spending_by_category,
                                             donations_below_large_by_category, spending_below_large_by_category):
     """Donations/Spending by time period (d, w, m) and large/regular amounts"""
-    #main_donation_categories = donations_total_by_category.groupby('Category')['UAH'].sum().sort_values(ascending = False).index[:4].tolist()
-    main_donation_categories = donations_total_by_category.groupby('Category')['UAH'].sum().sort_values(ascending=False).index.tolist()
-    #main_spending_categories = spending_total_by_category.groupby('Category')['UAH'].sum().sort_values(ascending = False).index[:4].tolist()
-    main_spending_categories = spending_total_by_category.groupby('Category')['UAH'].sum().sort_values(ascending = False).index.tolist()
+    #main_donation_categories = donations_total_by_category.groupby('Category')['USD'].sum().sort_values(ascending = False).index[:4].tolist()
+    main_donation_categories = donations_total_by_category.groupby('Category')['USD'].sum().sort_values(ascending=False).index.tolist()
+    #main_spending_categories = spending_total_by_category.groupby('Category')['USD'].sum().sort_values(ascending = False).index[:4].tolist()
+    main_spending_categories = spending_total_by_category.groupby('Category')['USD'].sum().sort_values(ascending = False).index.tolist()
     # col0, col1, col2 = st.columns(3)
     # with col0:
     #     amount = st.selectbox(' ',[' all ', '>10K', '<10K'])
